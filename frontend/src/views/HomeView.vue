@@ -16,14 +16,13 @@ const serverResponse = ref(
 );
 const { serverAddress } = storeToRefs(useServerStore());
 
-console.log(serverAddress);
 const firstRequest = async () => {
   const response = await fetch(serverAddress.value);
   const data = await response.text();
   serverResponse.value = data;
 };
 
-firstRequest();
+setTimeout(() => firstRequest(), 1000);
 </script>
 
 <style scoped>
