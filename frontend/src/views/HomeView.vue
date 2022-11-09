@@ -22,7 +22,7 @@ const firstRequest = async () => {
   serverResponse.value = data;
 };
 
-setTimeout(() => firstRequest(), 1000);
+setTimeout(() => firstRequest(), 0);
 </script>
 
 <style scoped>
