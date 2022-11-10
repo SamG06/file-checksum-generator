@@ -1,8 +1,17 @@
 <template>
   <main>
     <h1>Hello Checksum Generator</h1>
+    <p>Upload a file to generate checksums</p>
+    <form
+      ref="fileForm"
+      enctype="multipart/form-data"
+      @submit.prevent="firstRequest"
+      type="multi"
+    >
+      <input type="file" name="file" id="file" />
+      <button type="submit">Submit File</button>
+    </form>
     <p>{{ serverResponse }}</p>
-    <div></div>
   </main>
 </template>
 
@@ -16,13 +25,21 @@ const serverResponse = ref(
 );
 const { serverAddress } = storeToRefs(useServerStore());
 
+const fileForm = ref<HTMLFormElement | null>(null);
+
 const firstRequest = async () => {
-  const response = await fetch(serverAddress.value);
+  if (!fileForm.value) return;
+
+  const fileData = new FormData(fileForm.value);
+
+  const response = await fetch(serverAddress.value, {
+    method: "post",
+    body: fileData,
+  });
+
   const data = await response.text();
   serverResponse.value = data;
 };
-
-setTimeout(() => firstRequest(), 0);
 </script>
 
 <style scoped>

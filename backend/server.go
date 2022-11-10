@@ -4,6 +4,7 @@ import (
 	"crypto/sha512"
 	"encoding/hex"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 )
@@ -11,9 +12,26 @@ import (
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
 		(w).Header().Set("Access-Control-Allow-Origin", "*")
-		greeting := "Hello!"
+		
+		r.ParseMultipartForm(0)
 
-		hash := sha512.Sum512([]byte(greeting))
+		file, fileHeader, err := r.FormFile("file")
+
+		fmt.Printf("File name is %s\n", fileHeader.Filename)
+		
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+		}
+
+		// greeting := "Hello!"
+
+		file_hash := sha512.New()
+
+		if _,err := io.Copy(file_hash, file); err != nil {
+			log.Fatal(err)
+		}
+
+		hash := file_hash.Sum(nil)
 
 		fmt.Fprint(w, hex.EncodeToString(hash[:]))
 	})
