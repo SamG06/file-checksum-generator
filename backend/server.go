@@ -17,7 +17,7 @@ func main() {
 
 		file, fileHeader, err := r.FormFile("file")
 
-		fmt.Printf("File name is %s\n", fileHeader.Filename)
+		fmt.Printf("File being processed is: %s\n", fileHeader.Filename)
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
