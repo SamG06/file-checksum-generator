@@ -7,9 +7,11 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"server/database"
 )
 
 func main() {
+	database.Connection();
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
 		(w).Header().Set("Access-Control-Allow-Origin", "*")
 		
