@@ -11,7 +11,7 @@ func TablesSetup() []string {
 	Checksum := `CREATE TABLE IF NOT EXISTS checksum(
 		id SERIAL PRIMARY KEY,
 		type TEXT,
-		CHECK (type in ('sha512', 'sha256', 'md5', 'sha384'))
+		CHECK (type in ('sha512', 'sha256', 'md5', 'sha384', 'sha224'))
 		value TEXT,
 		PRIMARY KEY ()
 	)`
